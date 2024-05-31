@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load filters %}
+{% block start %}
+<h5 class="card-title text-center text-uppercase">  <strong style="font-size: 28px;">{{movie.movie_name}}</strong></h5>
+<div class="parent">
+    <div class="block">
+        <img src="{{ movie.images.url }}" style="width: 500px; height: 240px; " alt="Здесь должна была быть картинка фильма">
+        <p class="bold"><strong>Категория</strong> - {{movie.category.category_name}}</p>
+        <p class="bold"> <b>Цена -</b> {{movie.price}} р.</p>
+        <p class="bold"> <b>Описание -</b>  {{movie.description}} </p>
+        <p class="bold"> <b>Дата публикации -</b>  {{movie.date_created}}</p>
+        <form action="{% url 'add_cart' movie.uid %}" method="post">
+            {% csrf_token %}
+            <section><select name="quantity">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select><button type="submit" class="btn btn-warning middle">Добавить в корзину</button></section>
+        </form>
+    </div>
+</div>
+{% endblock %}

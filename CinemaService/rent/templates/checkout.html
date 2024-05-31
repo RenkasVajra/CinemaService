@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% block start %}
+<div class="container card shadow-lg mt-5">
+    <h2>Оплата</h2>
+    <p>Общая сумма: {{ total_price }}</p>
+    <form action="{% url 'payment' %}" method="POST">
+        {% csrf_token %}
+        <!-- Добавляем скрытые поля для передачи данных в Yoomoney -->
+        <input type="hidden" name="amount" value="{{ total_price }}">
+        <input type="hidden" name="label" value="Оплата билетов в кино">
+        <input type="hidden" name="success_url" value="{{ success_url }}">
+        <input type="hidden" name="fail_url" value="{{ fail_url }}">
+        <button type="submit" class="btn btn-success">Оплатить через Yoomoney</button>
+    </form>
+</div>
+{% endblock %}

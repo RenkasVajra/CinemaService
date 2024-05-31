@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block start %}
+ 
+<style>
+    .bold{
+        margin-left: 57px;
+    }
+    .middle{
+        margin-left: 26%;
+    }
+</style>
+<div class="container mt-5 pt-3">
+    <div class="row">
+    {% for movie in movies %}
+    <div class="col-md-3">
+        <div class="card">
+            <a href="{% url 'movie_page' movie.uid %}"><img src="{{ movie.images.url }}" style="width: 286px; height: 210px; border-radius: 15px;" alt="Картинка фильма"></a>
+            <div class="card-body">
+                <h5 class="card-title text-center text-uppercase">  <strong style="font-size: 28px;">{{movie.movie_name}}</strong></h5>
+                <p class="bold"> <b>Цена -</b>  {{movie.price}} р.<br> <strong>Категория</strong> - {{movie.category.category_name}}</p>
+                <form action="{% url 'add_cart' movie.uid %}" method="post">
+                    {% csrf_token %}
+                    <section><select name="quantity">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select><button type="submit" class="btn btn-warning ">Добавить в корзину</button></section>
+                </form>
+            </div>
+        </div>
+        <br>
+    </div>
+    <br>
+    {% endfor %}
+</div>
+</div>
+{% endblock %}

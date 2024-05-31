@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load filters %}
+{% block start %}
+<style>
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Функция для обновления счетчика на странице корзины
+    function updateCartCount(newCount) {
+        $('#cart-link i').attr('value', newCount);
+        $('#cart-link span').text(newCount); // Обновляем значение в span
+    }
+
+    // Обновление счетчика при изменении количества товаров в корзине
+    $('.plus-button, .minus-button').click(function() {
+        var cartItemId = $(this).data("cart-item-id");
+        var quantityElement = $("#quantity_" + cartItemId);
+        var currentQuantity = parseInt(quantityElement.val());
+        var newQuantity = currentQuantity + ($(this).hasClass("plus-button") ? 1 : -1);
+
+        if (newQuantity >= 1 && newQuantity <= 20) {
+            quantityElement.val(newQuantity);
+
+            // AJAX-запрос для обновления количества товара
+            $.ajax({
+                url: `/update_cart_item_quantity/${cartItemId}/`,
+                method: "POST",
+                dataType: "json",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                data: {
+                    quantity: newQuantity
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Обновляем счетчик на странице корзины
+                        updateCartCount(response.quantity);
+                        // Обновляем общую цену
+                        var totalPriceElement = $("#total_price_" + cartItemId);
+                        var moviePrice = parseFloat(totalPriceElement.data("movie-price"));
+                        var newTotalPrice = newQuantity * moviePrice;
+                        totalPriceElement.text(newTotalPrice);
+                        // Обновляем общую сумму корзины
+                        updateCartTotal();
+                        console.log("Количество билетов успешно обновлено");
+                    } else {
+                        console.error("Ошибка при обновлении количества билетов:", response.error);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Ошибка AJAX запроса:", error);
+                }
+            });
+        }
+    });
+
+    // Функция для обновления общей суммы корзины
+    function updateCartTotal() {
+        var total = 0;
+        $('.total-price').each(function() {
+            total += parseFloat($(this).text());
+        });
+        $('#cart-total').text(total.toFixed(2)); // Отображение общей суммы с двумя десятичными знаками
+    }
+
+    // Вызываем функцию для обновления общей суммы при загрузке страницы
+    updateCartTotal();
+});
+
+function agreeForm(f) {
+    if (f.agree.checked) f.submit.disabled = 0
+    else f.submit.disabled = 1
+   }
+</script>
+
+<div class="container card shadow-lg mt-5">
+    <div class="table-header">
+        <a href="{% url 'clear_cart' %}" class="btn btn-danger"><p>Очистить корзину</p></a>
+        <a href="#" class="btn btn-danger"><div class="cart-total">
+        <p>К оплате: <span id="cart-total">0.00р</span></p>
+    </div></a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Номер</th>
+                <th scope="col">Отмена покупки</th>
+                <th scope="col">Название</th>
+                <th scope="col">Цена</th>
+                <th scope="col">Количество</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cartItems in carts.cart_items.all %}
+            <tr>
+                <th>{{forloop.counter}}</th>
+                <th><a href="{% url 'remove_cart' cartItems.uid %}" class="btn btn-danger">Удалить</a>
+                </th>
+                <th>
+                    <h5>{{cartItems.movie.movie_name}}</h5>
+                </th>
+                <th class="total-price" id="total_price_{{ cartItems.uid }}" data-movie-price="{{ cartItems.movie.price }}">
+                    {{ cartItems.quantity|mul:cartItems.movie.price }}
+                </th>
+                <th>
+                    {% csrf_token %}
+                    <button class="plus-button btn btn-2 btn-sep" data-cart-item-id="{{ cartItems.uid }}">+</button>
+                    <input type="number" id="quantity_{{ cartItems.uid }}" name="quantity" min="1" max="50"  disabled value="{{ cartItems.quantity }}">
+                    <button class="minus-button btn btn-3 btn-sep" data-cart-item-id="{{ cartItems.uid }}">−</button>
+                </th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock %}
