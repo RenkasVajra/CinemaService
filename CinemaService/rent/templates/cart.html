@@ -9,13 +9,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 $(document).ready(function() {
-    // Функция для обновления счетчика на странице корзины
     function updateCartCount(newCount) {
         $('#cart-link i').attr('value', newCount);
-        $('#cart-link span').text(newCount); // Обновляем значение в span
+        $('#cart-link span').text(newCount);
     }
 
-    // Обновление счетчика при изменении количества товаров в корзине
     $('.plus-button, .minus-button').click(function() {
         var cartItemId = $(this).data("cart-item-id");
         var quantityElement = $("#quantity_" + cartItemId);
@@ -25,7 +23,6 @@ $(document).ready(function() {
         if (newQuantity >= 1 && newQuantity <= 20) {
             quantityElement.val(newQuantity);
 
-            // AJAX-запрос для обновления количества товара
             $.ajax({
                 url: `/update_cart_item_quantity/${cartItemId}/`,
                 method: "POST",
@@ -38,14 +35,11 @@ $(document).ready(function() {
                 },
                 success: function(response) {
                     if (response.success) {
-                        // Обновляем счетчик на странице корзины
                         updateCartCount(response.quantity);
-                        // Обновляем общую цену
                         var totalPriceElement = $("#total_price_" + cartItemId);
                         var moviePrice = parseFloat(totalPriceElement.data("movie-price"));
                         var newTotalPrice = newQuantity * moviePrice;
                         totalPriceElement.text(newTotalPrice);
-                        // Обновляем общую сумму корзины
                         updateCartTotal();
                         console.log("Количество билетов успешно обновлено");
                     } else {
@@ -59,16 +53,14 @@ $(document).ready(function() {
         }
     });
 
-    // Функция для обновления общей суммы корзины
     function updateCartTotal() {
         var total = 0;
         $('.total-price').each(function() {
             total += parseFloat($(this).text());
         });
-        $('#cart-total').text(total.toFixed(2)); // Отображение общей суммы с двумя десятичными знаками
+        $('#cart-total').text(total.toFixed(2));
     }
 
-    // Вызываем функцию для обновления общей суммы при загрузке страницы
     updateCartTotal();
 });
 

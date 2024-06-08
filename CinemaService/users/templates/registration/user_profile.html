@@ -33,34 +33,4 @@
         </div>
     </body>
     <footer></footer>
-</html>function updateCartItem(cartItemId, increment) {
-    $.ajax({
-        url: `/update_cart_item_quantity/${cartItemId}/`,
-        type: 'POST',
-        dataType: 'json',
-        data: JSON.stringify({'quantity': quantity, 'increment': increment}),
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
-        },
-        success: function(data) {
-            if (data.success) {
-                const quantityElement = $(`#quantity_${cartItemId}`);
-                let quantity = parseInt(quantityElement.val()) + increment;
-                if (quantity < 0) {
-                    quantity = 0;
-                }
-                quantityElement.val(quantity);
-
-                const totalPriceElement = $(`#total_price_${cartItemId}`);
-                const totalPrice = quantity * data.movie_price; // Предполагая, что сервер возвращает цену фильма
-                totalPriceElement.text(totalPrice);
-            } else {
-                console.error('Failed to update cart quantity:', data.error);
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error('Error:', error);
-        }
-    });
-}
+</html>

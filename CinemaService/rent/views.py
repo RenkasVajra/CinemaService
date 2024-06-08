@@ -24,7 +24,7 @@ def home(request):
         quantity = cart.cart_items.aggregate(total=models.Sum('quantity'))['total'] or 0
         context['quantity'] = quantity
     else:
-        pass
+        context['quantity'] = 0
     context['movies'] = movies
     return render(request, 'home.html', context)
 
@@ -32,6 +32,12 @@ def home(request):
 def movie(request, movie_uid):
     movie_obj = get_object_or_404(Movie, uid=movie_uid)
     context = {'movie': movie_obj}
+    if request.user.is_authenticated:
+        cart, _ = Cart.objects.get_or_create(user=request.user, is_paid=False)
+        quantity = cart.cart_items.aggregate(total=models.Sum('quantity'))['total'] or 0
+        context['quantity'] = quantity
+    else:
+        context['quantity'] = 0
     return render(request, 'movie.html', context)
 
 
@@ -41,12 +47,14 @@ def add_cart(request, movie_uid):
     movie_obj = Movie.objects.get(uid=movie_uid)
     cart, _ = Cart.objects.get_or_create(user=user, is_paid=False)
 
-    quantity = int(request.POST.get('quantity', 1))
+    quantity = int(request.POST.get('quantity'))
+    print('quantity', quantity)
 
     cart_item, created = CartItems.objects.get_or_create(cart=cart, movie=movie_obj)
-    cart_item.quantity = quantity
-    cart_item.save()
 
+    cart_item.quantity += quantity
+    cart_item.save()
+    print('quantity', cart_item.quantity)
     return redirect('/')
 
 

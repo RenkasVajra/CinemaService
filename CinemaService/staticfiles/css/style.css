@@ -140,31 +140,21 @@ container6 p {
   margin: 0
 }
 .parent {
-    width: 100%;
+    display:flex;
+    flex-wrap: wrap;
+    width: 450px;
     height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    overflow: auto;
+    margin-left: auto;
+    margin-right:auto;
+    justify-content: center;
 }
 
+}
 .block {
-    width: 250px;
-    height: 250px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin: auto;
-
-    img {
-        max-width: 100%;
-        height: auto;
-        display: block;
-        margin: 0 auto;
-        border: none;
-    }
+    width: 450px;
+    height: 450px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 body {
@@ -172,7 +162,7 @@ body {
   font-family: "Roboto", sans-serif;
   font-size: 16px;
   line-height: 24px;
-  color: #163152;
+  color:  #6A5ACD;
   background-color: #fdfdff;
 }
 
@@ -497,6 +487,10 @@ body {
     display: flex;
     flew-direction: row;
     justify-content: space-between;
+    border: 1px solid #800080;
+    border-radius: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
 }
 
    .badge:after{
@@ -517,6 +511,14 @@ body {
     margin-left: 20px;
     display: flex;
     flex-direction: column;
+}
+.user-exit {
+    color: inherit;
+    text-decoration: none;
+}
+
+.user-exit:hover {
+    text-decoration: underline;
 }
 
 .container .row {

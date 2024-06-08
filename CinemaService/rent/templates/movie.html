@@ -1,12 +1,13 @@
+
 {% extends "base.html" %}
 
 {% load static %}
-{% load filters %}
+
 {% block start %}
-<h5 class="card-title text-center text-uppercase">  <strong style="font-size: 28px;">{{movie.movie_name}}</strong></h5>
-<div class="parent">
+
+<h5 class="card-title">  <strong style="font-size: 28px;">{{movie.movie_name}}</strong></h5>
+<div class="parent" style="background: url('{{ movie.images.url }}') no-repeat opacity 0.1; background-size: 100% 100%; object-fit: fill;">
     <div class="block">
-        <img src="{{ movie.images.url }}" style="width: 500px; height: 240px; " alt="Здесь должна была быть картинка фильма">
         <p class="bold"><strong>Категория</strong> - {{movie.category.category_name}}</p>
         <p class="bold"> <b>Цена -</b> {{movie.price}} р.</p>
         <p class="bold"> <b>Описание -</b>  {{movie.description}} </p>

@@ -54,7 +54,7 @@ class Cart(BaseModel):
 class CartItems(BaseModel):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='cart_items', verbose_name='Название')
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, verbose_name='Фильм')
-    quantity = models.IntegerField(default=1, verbose_name='Количество')
+    quantity = models.IntegerField(default=0, verbose_name='Количество')
 
     class Meta:
         db_table = 'CartItems'

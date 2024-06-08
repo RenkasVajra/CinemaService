@@ -2,7 +2,6 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-
 class SiteUser(AbstractUser):
     email = models.EmailField(unique=True, default='')
     password = models.CharField(max_length=128, null=True)
