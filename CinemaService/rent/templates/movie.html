@@ -1,32 +1,39 @@
-
 {% extends "base.html" %}
-
 {% load static %}
-
+{% load filters %}
 {% block start %}
+<style>
+    h2 {
+       padding: 0;
+       margin:0;
+       text-align: start;
+       color: white;
+       weight: 400;
+    }
+</style>
+<title>{{ movie.movie_name }}</title>
+<div class="show-time">
+    <img src="{{ movie.images.url }}" alt="Картинка фильма">
 
-<h5 class="card-title">  <strong style="font-size: 28px;">{{movie.movie_name}}</strong></h5>
-<div class="parent" style="background: url('{{ movie.images.url }}') no-repeat opacity 0.1; background-size: 100% 100%; object-fit: fill;">
-    <div class="block">
-        <p class="bold"><strong>Категория</strong> - {{movie.category.category_name}}</p>
-        <p class="bold"> <b>Цена -</b> {{movie.price}} р.</p>
-        <p class="bold"> <b>Описание -</b>  {{movie.description}} </p>
-        <p class="bold"> <b>Дата публикации -</b>  {{movie.date_created}}</p>
-        <form action="{% url 'add_cart' movie.uid %}" method="post">
-            {% csrf_token %}
-            <section><select name="quantity">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-            </select><button type="submit" class="btn btn-warning middle">Добавить в корзину</button></section>
-        </form>
+    <div class="show-time-children">
+            <div class="show-time-block">
+                <p>{{ movie.country }}</p>
+                <p>{{ movie.category }}</p>
+                <p>{{ movie.duration }}</p>
+            </div>
+            <h2>{{ movie.movie_name }}</h2>
+            <p>{{ movie.description }}</p>
+
+        <h2>Выберите дату:</h2>
+        <ul>
+            {% for date in unique_dates %}
+                <li class="btn-warning">
+                    <a href="{% url 'show_time' date %}">
+                        {{ date|date:"d" }} {{ date|date:"F"|month_name }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
 </div>
 {% endblock %}

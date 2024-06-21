@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block start %}
+<style>
+ .btn-warning {
+  padding: 10px;
+  width: 70px;
+  height: 20px;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid #91C9FF;
+  border-radius: 8px;
+  outline: none;
+  transition: 1s ease-in-out;
+}
+
+svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  fill: none;
+  stroke: #fff;
+  stroke-dasharray: 150 480;
+  stroke-dashoffset: 150;
+  transition: 1s ease-in-out;
+}
+
+.btn-warning:hover {
+  transition: 1s ease-in-out;
+  background: #0000cc;
+}
+h2 {
+   padding: 0;
+   margin:0;
+   text-align: start;
+   color: white;
+   weight: 400;
+}
+
+
+</style>
+
+<title>{{ movie.movie_name }}</title>
+<div class="show-time">
+    <img src="{{ movie.images.url }}" alt="Картинка фильма">
+
+    <div class="show-time-children">
+        <div class="show-time-block">
+            <p>{{ movie.country }}</p>
+            <p>{{ movie.category }}</p>
+            <p>{{ movie.duration }}</p>
+        </div>
+        <h2>{{ movie.movie_name }}</h2>
+        <p>{{ movie.description }}</p>
+
+        <h3>Выберите сеанс:</h3>
+        <ul>
+            {% for showtime in showtimes|dictsort:"time" %}
+                <li class="btn-warning">
+                    <a  href="{% url 'select_seats' showtime.id %}">
+                        {{ showtime.time|time:"H:i" }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}

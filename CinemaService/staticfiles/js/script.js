@@ -4,7 +4,6 @@ let serifFontButton = document.querySelector('.font-button-serif');
 let sansSerifFontButton = document.querySelector('.font-button-sans-serif');
 let themeSwitcher = document.querySelector('.theme-switcher');
 
-// Проверяем, есть ли сохраненная тема
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme) {
     if (savedTheme === 'dark') {
@@ -22,14 +21,14 @@ darkThemeButton.onclick = function () {
     document.body.classList.add('dark');
     darkThemeButton.classList.add('active');
     lightThemeButton.classList.remove('active');
-    localStorage.setItem('theme', 'dark'); // Сохраняем тему в LocalStorage
+    localStorage.setItem('theme', 'dark');
 };
 
 lightThemeButton.onclick = function () {
     document.body.classList.remove('dark');
     lightThemeButton.classList.add('active');
     darkThemeButton.classList.remove('active');
-    localStorage.setItem('theme', 'light'); // Сохраняем тему в LocalStorage
+    localStorage.setItem('theme', 'light');
 };
 
 serifFontButton.onclick = function () {
@@ -105,4 +104,3 @@ function getCookie(name) {
   }
   return cookieValue;
 }
-

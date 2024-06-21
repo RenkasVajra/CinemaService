@@ -19,22 +19,7 @@
   text-decoration: none;
 }
 
-.btn-warning {
-    background-color: #800080; /* Фиолетовый цвет */
-    border-color: #800080; /* Фиолетовый цвет границы */
-    border-radius: 25px; /* Скругленные углы */
-}
 
-.btn-warning:hover {
-    background-color: #663399; /* Более темный фиолетовый при наведении */
-    border-color: #663399; /* Более темный фиолетовый цвет границы */
-}
-
-.btn-warning:active {
-    background-color: #4d0080; /* Ещё более темный фиолетовый при нажатии */
-    border-color: #4d0080; /* Ещё более темный фиолетовый цвет границы */
-    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2); /* Тень при нажатии */
-}
 
 .btn:after {
   -webkit-transition: all 0.3s;
@@ -42,7 +27,6 @@
   transition: all 0.3s;
 }
 
-/* Pseudo elements for icons */
 .btn:before {
   font-family: 'FontAwesome';
   speak: none;
@@ -140,16 +124,21 @@ container6 p {
   margin: 0
 }
 .parent {
-    display:flex;
+    width: 100%;
+    margin-bottom: 45px;
+    display: flex;
     flex-wrap: wrap;
-    width: 450px;
-    height: 100%;
-    margin-left: auto;
-    margin-right:auto;
     justify-content: center;
-}
 
 }
+
+.description {
+    word-break: break-all;
+    width: 350px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .block {
     width: 450px;
     height: 450px;
@@ -535,28 +524,26 @@ body {
     justify-content: center;
 
 }
-/* Стили для заголовка таблицы (<thead>) */
+
 thead {
-    background-color: #222; /* Темный фон заголовка */
-    color: #fff; /* Белый цвет текста */
+    background-color: #222;
+    color: #fff;
 }
 
-/* Стили для ячеек заголовка (<th>) */
 th {
-    padding: 12px 15px; /* Отступы для текста */
-    text-align: left; /* Выравнивание текста по левому краю */
-    font-weight: bold; /* Жирный шрифт */
-    font-size: 1.1em; /* Увеличенный размер шрифта */
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 1.1em;
 }
 
-/* Стили для ссылки в ячейке заголовка */
 th a {
-    color: #fff; /* Белый цвет ссылки */
-    text-decoration: none; /* Убираем подчеркивание */
+    color: #fff;
+    text-decoration: none;
 }
 
 th a:hover {
-    text-decoration: underline; /* Подчеркивание при наведении */
+    text-decoration: underline;
 }
 
 btn-danger {
@@ -596,6 +583,8 @@ td, th {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     border: 1px solid #800080;
+    padding-right: 10px;
+    padding-top: 1px;
 
 }
 
@@ -671,4 +660,312 @@ select[name="quantity"]:focus {
     outline: none;
     border-color: #808080;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.seat {
+    background-color: #eee;
+}
+.seat:hover {
+    background-color: #007bff;
+}
+.seat.selected {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.seat.disabled {
+    background-color: #blue;
+    cursor: default;
+}
+
+.seat.booked {
+    background-color: #008000;
+    color: #008000;
+}
+
+.seat {
+  background-color: rgb(48, 166, 241);
+  color: white;
+  padding: 2px;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.seat.selected {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.seat.disabled {
+    background-color: #blue;
+    cursor: default;
+}
+
+.seat.booked-by-user {
+    background-color: #4CAF50;
+    cursor: default;
+}
+
+.seat.booked-by-other {
+    background-color: #ccc;
+    cursor: default;
+}
+
+.cinema-hall {
+    width: 600px;
+    height: 300px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    list-style: none;
+    padding-left: 0;
+    justify-content: center;
+}
+
+
+
+.cinema-hall {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+}
+
+
+.screen {
+  width: 40%;
+  height: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.screen::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 100%);
+  opacity: 0.5;
+  border-radius: 5px;
+}
+.seats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.seat {
+  width: 40px;
+  height: 40px;
+  margin: 5px;
+  background-color: #blue;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.seat.selected {
+  background-color: #ff294d;
+  color: #fff;
+}
+
+.seat.disabled {
+  background-color: #ddd;
+  cursor: default;
+}
+
+.seat.booked-by-user {
+  background-color: #4CAF50;
+  cursor: default;
+}
+
+.seat.booked-by-other {
+  background-color: #ccc;
+  cursor: default;
+}
+
+#add-to-cart-form {
+  margin-top: 30px;
+}
+
+#add-to-cart {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+#add-to-cart:hover {
+  background-color: #0056b3;
+}
+
+.seats .seat:nth-child(-n + 8) {
+  margin-right: 5px;
+}
+
+.seats .seat:nth-child(8n) {
+  margin-right: 0;
+}
+
+.select-seats {
+  background-color: black;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.screen {
+  width: 100%;
+  height: 10px;
+  background-color: #fff;
+  border-radius: 5px solid black;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.screen::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100%;
+      height: 10px;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 100%);
+      opacity: 0.5;
+      border-radius: 5px;
+}
+
+.show-time {
+      display: flex;
+      width: 100%;
+      flex-wrap: wrap;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      background-color: #007dff;
+      color: white;
+      justify-content: center ;
+}
+
+.show-time img {
+    padding: 10px 0;
+    width: 286px;
+    height: 40%;
+    border-radius: 15px;
+}
+
+.show-time-children {
+    width: 700px;
+    margin-left: 10px;
+
+}
+.show-time-children p {
+    text-align: start;
+}
+.show-time ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    list-style: none;
+    justify-content: center;
+
+}
+.show-time li {
+    margin-top: 10px;
+}
+
+.show-time a {
+    text-decoration: none;
+    color: white;
+    padding: 2px;
+
+}
+
+.show-time-block {
+    width: 600px;
+    display: flex;
+    flex-wrap: no-wrap;
+}
+
+.show-time-block p {
+    text-align: start;
+    margin-right: 15px;
+}
+
+.show-time-block p:last-child {
+    margin-right: 0;
+}
+
+.btn-warning {
+  padding: 10px;
+  width: 70px;
+  height: 20px;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid #91C9FF;
+  border-radius: 8px;
+  outline: none;
+  transition: 1s ease-in-out;
+}
+
+svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  fill: none;
+  stroke: #fff;
+  stroke-dasharray: 150 480;
+  stroke-dashoffset: 150;
+  transition: 1s ease-in-out;
+}
+
+.btn-warning:hover {
+  transition: 1s ease-in-out;
+  background: #0000cc;
+}
+
+.pagination ul {
+display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pagination li {
+  display: inline-block;
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.pagination li a {
+  text-decoration: none;
+}
+
+.pagination li.active  {
+  background-color: #007bff;
+  color: #fff;
+  border: 1px solid #007bff;
 }

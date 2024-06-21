@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load filters %}
+
+{% block start %}
+<script src="https://ajax.OpenAIapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>
+body {
+
+  font-family: 'Arial', sans-serif;
+  background-color: #f2f2f2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+h1, h2, h3 {
+  color: #333;
+}
+
+
+
+</style>
+<title>Выбор мест</title>
+    <h1>{{ movie.movie_name }}</h1>
+    <h3>{{ showtime.date|date:"d" }} {{ showtime.date|date:"F"|month_name }} в {{ showtime.time }}</h3>
+
+<div class="select-seats">
+    <div class="screen"></div>
+    <div class="cinema-hall">
+        <div class="seats">
+            {% for seat in seats %}
+                <button class="seat {% if not seat.is_available %}disabled{% endif %}
+                        {% if seat.is_booked %}
+                            {% if seat.booked_by.id == request.user.id %}booked-by-user{% else %}booked-by-other{% endif %}
+                        {% endif %}"
+                        data-seat-id="{{ seat.id }}"
+                        data-seat-row="{{ seat.row }}" data-seat-number="{{ seat.number }}">
+                    {{ seat.row }}{{ seat.number }}
+                </button>
+            {% endfor %}
+        </div>
+    </div>
+
+    <form method="POST" action="{% url 'add_cart' movie.uid %}" id="add-to-cart-form">
+        {% csrf_token %}
+        <input type="hidden" name="showtime_id" value="{{ showtime.id }}">
+        <input type="hidden" name="selected_seats" id="selected-seats">
+        <button type="submit" class="btn btn-primary" id="add-to-cart" disabled>Добавить в корзину</button>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function() {
+            $.ajax({
+            url: '{% url 'get_cart_items' showtime.id %}',
+            type: 'GET',
+            success: function(data) {
+                if (data.cart_items.length > 0) {
+                    // Подсвечиваем места в корзине пользователя
+                    data.cart_items.forEach(function(item) {
+                        var seatId = item.seat;
+                        var seatElement = $('.seat[data-seat-id="' + seatId + '"]');
+                        if (seatElement.length > 0) {
+                            seatElement.addClass('booked-by-user');
+                        }
+                    });
+                }
+            },
+            error: function(error) {
+                console.error('Ошибка при получении данных корзины:', error);
+            }
+        });
+
+        $('.seat').click(function() {
+            var seatId = $(this).data('seat-id');
+            if (!$(this).hasClass('disabled')) {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                    var selectedSeats = $('#selected-seats').val().split(',');
+                    selectedSeats = selectedSeats.filter(function(id) {
+                        return id !== seatId.toString();
+                    });
+                    $('#selected-seats').val(selectedSeats.join(','));
+                } else {
+                    $(this).addClass('selected');
+                    var selectedSeats = $('#selected-seats').val().split(',');
+                    selectedSeats.push(seatId);
+                    $('#selected-seats').val(selectedSeats.join(','));
+                }
+                if ($('#selected-seats').val() !== '') {
+                    $('#add-to-cart').prop('disabled', false);
+                } else {
+                    $('#add-to-cart').prop('disabled', true);
+                }
+            }
+        });
+    });
+</script>
+
+{% endblock %}
