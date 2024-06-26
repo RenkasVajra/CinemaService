@@ -18,16 +18,14 @@ SECRET_KEY = 'YOUR_SECRET_KEY'
 
 
 def home(request):
-    context = {}
     movies = Movie.objects.all()
     if request.user.is_authenticated:
         cart, _ = Cart.objects.get_or_create(user=request.user, is_paid=False)
         quantity = cart.cart_items.count()
-        context['quantity'] = quantity
+
     else:
-        context['quantity'] = 0
-    context['movies'] = movies
-    return render(request, 'home.html', context)
+        quantity = 0
+    return render(request, 'home.html', context={'quantity': quantity, 'movies': movies})
 
 
 @login_required
